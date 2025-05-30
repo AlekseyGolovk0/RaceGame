@@ -23,7 +23,7 @@
             this.Controls.Add(panelMenu);
             this.Controls.Add(panelGame);
             this.Controls.Add(panelPause);
-
+            
             panelMenu.BringToFront();
             panelPause.SendToBack();
             panelGame.SendToBack();
@@ -122,7 +122,7 @@
         {
             switch (e.KeyCode)
             {
-                case Keys.Right when mainCar.Right < Width && _carSpeed != _minCarSpeed:
+                case Keys.Right when mainCar.Right < Width && _carSpeed!= _minCarSpeed:
                     mainCar.Left += _carMoveStep;
                     break;
 
