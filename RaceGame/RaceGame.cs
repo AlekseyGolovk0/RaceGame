@@ -5,7 +5,7 @@
         private const int _carMoveStep = 9;
         private const int _maxCarSpeed = 21;
         private const int _minCarSpeed = 0;
-        private const int _continueCost = 1;
+        private const int _continueCost = 15;
 
         private readonly Label[] _lanesOne;
         private readonly Label[] _lanesTwo;
@@ -16,6 +16,7 @@
         private int _score = 0;
         private int _coins = 0;
         private int _carSpeed = 2;
+
         public RaceGame()
         {
             InitializeComponent();
@@ -23,7 +24,7 @@
             this.Controls.Add(panelMenu);
             this.Controls.Add(panelGame);
             this.Controls.Add(panelPause);
-            
+
             panelMenu.BringToFront();
             panelPause.SendToBack();
             panelGame.SendToBack();
@@ -122,12 +123,23 @@
         {
             switch (e.KeyCode)
             {
-                case Keys.Right when mainCar.Right < Width && _carSpeed!= _minCarSpeed:
+                case Keys.Right:
                     mainCar.Left += _carMoveStep;
+
+                    if (mainCar.Left > panelGame.Width)
+                    {
+                        mainCar.Left = -mainCar.Width;
+                    }
                     break;
 
-                case Keys.Left when mainCar.Left > 0 && _carSpeed != _minCarSpeed:
+                case Keys.Left:
                     mainCar.Left -= _carMoveStep;
+
+    
+                    if (mainCar.Right < 0)
+                    {
+                        mainCar.Left = panelGame.Width;
+                    }
                     break;
 
                 case Keys.Up when _carSpeed < _maxCarSpeed:
@@ -283,10 +295,12 @@
             if (car == null) return;
 
             car.Top += speed;
-            if (car.Top <= Height) return;
 
-            car.Top = -car.Height;
-            car.Left = _random.Next(0, Math.Max(1, Width - car.Width));
+            if (car.Top > Height)
+            {
+                car.Top = -car.Height;
+                car.Left = _random.Next(0, Math.Max(1, Width - car.Width));
+            }
         }
 
         private void ResumeButton(object sender, EventArgs e)
